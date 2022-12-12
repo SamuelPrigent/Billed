@@ -7,6 +7,7 @@ import Login from "../containers/Login.js";
 import { ROUTES } from "../constants/routes";
 import { fireEvent, screen } from "@testing-library/dom";
 
+// Check get login html views
 describe("Given that I am a user on login page", () => {
   describe("When I do not fill fields and I click on employee button Login In", () => {
     test("Then It should renders Login page", () => {
@@ -27,6 +28,7 @@ describe("Given that I am a user on login page", () => {
     });
   });
 
+  // Check get login html views
   describe("When I do fill fields in incorrect format and I click on employee button Login In", () => {
     test("Then It should renders Login page", () => {
       document.body.innerHTML = LoginUI();
@@ -83,9 +85,7 @@ describe("Given that I am a user on login page", () => {
       };
 
       let PREVIOUS_LOCATION = "";
-
       const store = jest.fn();
-
       const login = new Login({
         document,
         localStorage: window.localStorage,
@@ -94,6 +94,7 @@ describe("Given that I am a user on login page", () => {
         store,
       });
 
+      // on Navigate
       const handleSubmit = jest.fn(login.handleSubmitEmployee);
       login.login = jest.fn().mockResolvedValue({});
       form.addEventListener("submit", handleSubmit);
@@ -158,6 +159,7 @@ describe("Given that I am a user on login page", () => {
     });
   });
 
+  // Admin Test
   describe("When I do fill fields in correct format and I click on admin button Login In", () => {
     test("Then I should be identified as an HR admin in app", () => {
       document.body.innerHTML = LoginUI();
@@ -170,13 +172,13 @@ describe("Given that I am a user on login page", () => {
 
       const inputEmailUser = screen.getByTestId("admin-email-input");
       fireEvent.change(inputEmailUser, { target: { value: inputData.email } });
-      expect(inputEmailUser.value).toBe(inputData.email);
+      expect(inputEmailUser.value).toBe(inputData.email); // ----- error : null
 
       const inputPasswordUser = screen.getByTestId("admin-password-input");
       fireEvent.change(inputPasswordUser, {
         target: { value: inputData.password },
       });
-      expect(inputPasswordUser.value).toBe(inputData.password);
+      expect(inputPasswordUser.value).toBe(inputData.password); // ----- error : null
 
       const form = screen.getByTestId("form-admin");
 
@@ -206,11 +208,12 @@ describe("Given that I am a user on login page", () => {
         store,
       });
 
+      // on Navigate
       const handleSubmit = jest.fn(login.handleSubmitAdmin);
       login.login = jest.fn().mockResolvedValue({});
       form.addEventListener("submit", handleSubmit);
       fireEvent.submit(form);
-      expect(handleSubmit).toHaveBeenCalled();
+      expect(handleSubmit).toHaveBeenCalled(); // ----- error : number of call = 0
       expect(window.localStorage.setItem).toHaveBeenCalled();
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
         "user",
@@ -224,7 +227,7 @@ describe("Given that I am a user on login page", () => {
     });
 
     test("It should renders HR dashboard page", () => {
-      expect(screen.queryByText("Validations")).toBeTruthy();
+      expect(screen.queryByText("Validations")).toBeTruthy(); // ----- error : null
     });
   });
 });
